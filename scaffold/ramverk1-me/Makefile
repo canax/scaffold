@@ -2,6 +2,11 @@
 #
 #
 
+# ------------------------------------------------------------------------
+#
+# Generel stuff
+#
+
 # Detect OS
 OS = $(shell uname -s)
 
@@ -28,16 +33,26 @@ THIS_MAKEFILE := $(call WHERE-AM-I)
 # Echo some nice helptext based on the target comment
 HELPTEXT = $(ECHO) "$(ACTION)--->" `egrep "^\# target: $(1) " $(THIS_MAKEFILE) | sed "s/\# target: $(1)[ ]*-[ ]* / /g"` "$(NO_COLOR)"
 
+
+
+# ------------------------------------------------------------------------
+#
+# Specifics
+#
+
 # Add local bin path for test tools
 #PATH := "./.bin:./vendor/bin:./node_modules/.bin:$(PATH)"
 #SHELL := env PATH=$(PATH) $(SHELL)
-PHPUNIT := .bin/phpunit
-PHPLOC 	:= .bin/phploc
-PHPCS   := .bin/phpcs
-PHPCBF  := .bin/phpcbf
-PHPMD   := .bin/phpmd
-PHPDOC  := .bin/phpdoc
-BEHAT   := .bin/behat
+BIN     := .bin
+PHPUNIT := $(BIN)/phpunit
+PHPLOC 	:= $(BIN)/phploc
+PHPCS   := $(BIN)/phpcs
+PHPCBF  := $(BIN)/phpcbf
+PHPMD   := $(BIN)/phpmd
+PHPDOC  := $(BIN)/phpdoc
+BEHAT   := $(BIN)/behat
+SHELLCHECK := $(BIN)/shellcheck
+BATS := $(BIN)/bats
 
 
 
@@ -70,24 +85,32 @@ clean:
 
 
 
+# target: clean-cache        - Clean the cache.
+.PHONY:  clean-cache
+clean-cache:
+	@$(call HELPTEXT,$@)
+	rm -rf cache/*/*
+
+
+
 # target: clean-all          - Removes generated files and directories.
 .PHONY:  clean-all
 clean-all:
 	@$(call HELPTEXT,$@)
-	rm -rf .bin build vendor composer.lock
+	rm -rf .bin build vendor
 
 
 
 # target: check              - Check version of installed tools.
 .PHONY:  check
-check: check-tools-php
+check: check-tools-bash check-tools-php
 	@$(call HELPTEXT,$@)
 
 
 
 # target: test               - Run all tests.
 .PHONY:  test
-test: scaffold-verify #phpunit phpcs phpmd phploc behat
+test: bats phpunit phpcs phpmd phploc behat # shellcheck
 	@$(call HELPTEXT,$@)
 	composer validate
 
@@ -102,14 +125,14 @@ doc: phpdoc
 
 # target: build              - Do all build
 .PHONY:  build
-build: test doc #less-compile less-minify js-minify
+build: test doc #theme less-compile less-minify js-minify
 	@$(call HELPTEXT,$@)
 
 
 
 # target: install            - Install all tools
 .PHONY:  install
-install: prepare install-tools-php
+install: prepare install-tools-bash install-tools-php
 	@$(call HELPTEXT,$@)
 
 
@@ -118,7 +141,7 @@ install: prepare install-tools-php
 .PHONY:  update
 update:
 	@$(call HELPTEXT,$@)
-	git pull
+	[ ! -d .git ] || git pull
 	composer update
 
 
@@ -176,7 +199,7 @@ check-tools-php:
 .PHONY: phpunit
 phpunit: prepare
 	@$(call HELPTEXT,$@)
-	$(PHPUNIT) --configuration .phpunit.xml
+	[ ! -f .phpunit.xml ] || $(PHPUNIT) --configuration .phpunit.xml
 
 
 
@@ -184,7 +207,7 @@ phpunit: prepare
 .PHONY: phpcs
 phpcs: prepare
 	@$(call HELPTEXT,$@)
-	$(PHPCS) --standard=.phpcs.xml | tee build/phpcs
+	[ ! -f .phpcs.xml ] || $(PHPCS) --standard=.phpcs.xml | tee build/phpcs
 
 
 
@@ -192,7 +215,7 @@ phpcs: prepare
 .PHONY: phpcbf
 phpcbf:
 	@$(call HELPTEXT,$@)
-	$(PHPCBF) --standard=.phpcs.xml
+	[ ! -f .phpcs.xml ] || $(PHPCBF) --standard=.phpcs.xml
 
 
 
@@ -200,7 +223,7 @@ phpcbf:
 .PHONY: phpmd
 phpmd: prepare
 	@$(call HELPTEXT,$@)
-	- $(PHPMD) . text .phpmd.xml | tee build/phpmd
+	- [ ! -f .phpmd.xml ] || $(PHPMD) . text .phpmd.xml | tee build/phpmd
 
 
 
@@ -216,7 +239,7 @@ phploc: prepare
 .PHONY: phpdoc
 phpdoc:
 	@$(call HELPTEXT,$@)
-	$(PHPDOC) --config=.phpdoc.xml
+	[ ! -f .phpdoc.xml ] || $(PHPDOC) --config=.phpdoc.xml
 
 
 
@@ -230,28 +253,94 @@ behat:
 
 # ------------------------------------------------------------------------
 #
-# Scaffold
+# Bash
 #
-# target: scaffold           - Build all scaffolds.tar.gz and checksums.
-.PHONY: scaffold
-scaffold:
+
+# target: install-tools-bash - Install Bash development tools.
+.PHONY: install-tools-bash
+install-tools-bash:
 	@$(call HELPTEXT,$@)
-	cd scaffold;                                               \
-	for dir in */; do                                          \
-	    tar cfz "$${dir%/}.tar.gz" "$${dir%/}";                  \
-	    sha1sum "$${dir%/}.tar.gz" > "$${dir%/}.tar.gz.sha1";    \
-	done;                                                      \
-	ls -l;
+	# Shellcheck
+	curl -s https://storage.googleapis.com/shellcheck/shellcheck-latest.linux.x86_64.tar.xz | tar -xJ -C build/ && rm -f .bin/shellcheck && ln build/shellcheck-latest/shellcheck .bin/
+
+	# Bats
+	curl -Lso $(BIN)/bats-exec-suite https://raw.githubusercontent.com/sstephenson/bats/master/libexec/bats-exec-suite
+	curl -Lso $(BIN)/bats-exec-test https://raw.githubusercontent.com/sstephenson/bats/master/libexec/bats-exec-test
+	curl -Lso $(BIN)/bats-format-tap-stream https://raw.githubusercontent.com/sstephenson/bats/master/libexec/bats-format-tap-stream
+	curl -Lso $(BIN)/bats-preprocess https://raw.githubusercontent.com/sstephenson/bats/master/libexec/bats-preprocess
+	curl -Lso $(BATS) https://raw.githubusercontent.com/sstephenson/bats/master/libexec/bats
+	chmod 755 $(BIN)/bats*
 
 
 
-# target: scaffold-verify    - Verify checksums.
-.PHONY: scaffold-verify
-scaffold-verify:
+
+# target: check-tools-bash   - Check versions of Bash tools.
+.PHONY: check-tools-bash
+check-tools-bash:
 	@$(call HELPTEXT,$@)
-	cd scaffold;                                               \
-	for file in *.sha1; do                                     \
-	    sha1sum -c "$${file}";                                  \
-	done;                                                      \
-	
-	
+	which $(SHELLCHECK) && $(SHELLCHECK) --version
+	which $(BATS) && $(BATS) --version
+
+
+
+# target: shellcheck         - Run shellcheck for bash files.
+.PHONY: shellcheck
+shellcheck:
+	@$(call HELPTEXT,$@)
+	[ ! -d src ] || $(SHELLCHECK) --shell=bash src/*.bash
+
+
+
+# target: bats               - Run bats for unit testing bash files.
+.PHONY: bats
+bats:
+	@$(call HELPTEXT,$@)
+	[ ! -d test ] || $(BATS) test/
+
+
+
+# ------------------------------------------------------------------------
+#
+# Theme
+#
+# target: theme              - Do make build install in theme/ if available.
+.PHONY: theme
+theme:
+	@$(call HELPTEXT,$@)
+	[ ! -d theme ] || ( cd theme && make build install )
+
+
+
+# ------------------------------------------------------------------------
+#
+# Cimage
+#
+
+define CIMAGE_CONFIG
+<?php
+return [
+    "mode"         => "development",
+    "image_path"   =>  __DIR__ . "/../img/",
+    "cache_path"   =>  __DIR__ . "/../../cache/cimage/",
+    "autoloader"   =>  __DIR__ . "/../../vendor/autoload.php",
+];
+endef
+export CIMAGE_CONFIG
+
+# target: cimage-update           - Install/update Cimage to latest version.
+.PHONY: cimage-update
+cimage-update:
+	@$(call HELPTEXT,$@)
+	composer require mos/cimage
+	install -d htdocs/cimage cache/cimage
+	chmod 777 cache/cimage
+	cp vendor/mos/cimage/webroot/img.php htdocs/cimage
+	cp vendor/mos/cimage/webroot/img/car.png htdocs/img/
+	touch htdocs/cimage/img_config.php
+
+# target: cimage-config-create    - Create configfile for Cimage.
+.PHONY: cimage-config-create
+cimage-config-create:
+	@$(call HELPTEXT,$@)
+	$(ECHO) "$$CIMAGE_CONFIG" | bash -c 'cat > htdocs/cimage/img_config.php'
+	cat htdocs/cimage/img_config.php
