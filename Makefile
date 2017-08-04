@@ -238,7 +238,7 @@ scaffold:
 	@$(call HELPTEXT,$@)
 	cd scaffold;                                               \
 	for dir in */; do                                          \
-	    tar cfz "$${dir%/}.tar.gz" "$${dir%/}";                  \
+	    tar cfz "$${dir%/}.tar.gz" -C "$$dir" .;                 \
 	    sha1sum "$${dir%/}.tar.gz" > "$${dir%/}.tar.gz.sha1";    \
 	done;                                                      \
 	ls -l;
