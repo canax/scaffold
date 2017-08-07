@@ -327,12 +327,21 @@ return [
 endef
 export CIMAGE_CONFIG
 
+define GITIGNORE_EMPTY_DIR
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
+endef
+export GITIGNORE_EMPTY_DIR
+
 # target: cimage-update           - Install/update Cimage to latest version.
 .PHONY: cimage-update
 cimage-update:
 	@$(call HELPTEXT,$@)
 	composer require mos/cimage
 	install -d htdocs/cimage cache/cimage
+	$(ECHO) "$$GITIGNORE_EMPTY_DIR" | bash -c 'cat > cache/cimage/.gitignore'
 	chmod 777 cache/cimage
 	cp vendor/mos/cimage/webroot/img.php htdocs/cimage
 	cp vendor/mos/cimage/webroot/img/car.png htdocs/img/
