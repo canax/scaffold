@@ -6,7 +6,7 @@
 # Default module values
 AUTHOR_NAME="Mikael Roos"
 AUTHOR_EMAIL="mos@dbwebb.se"
-MODULE_NAME="mupp"
+MODULE_NAME="MODULE_NAME"
 TODAY=$( date +'%Y-%m-%d' )
 
 # Prepare for git
