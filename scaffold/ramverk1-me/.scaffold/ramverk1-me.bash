@@ -2,5 +2,5 @@
 #
 # Postprocess scaffold
 #
-composer install
+composer update
 make cimage-update
