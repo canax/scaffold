@@ -24,7 +24,7 @@ input()
 #
 sedi()
 {
-    sed -i ".bak" "$1" "$2"
+    sed -i.bak "$1" "$2"
     rm -f "$2.bak"
 }
 
