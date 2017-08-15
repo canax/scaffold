@@ -33,8 +33,18 @@ class CLASS_NAME implements ConfigureInterface, InjectionAwareInterface
      *
      * @return void
      */
-    public function method($data)
+    public function getIndex($data)
     {
-        ;
+        $title      = "A index page";
+        $view       = $this->di->get("view");
+        $pageRender = $this->di->get("pageRender");
+
+        $data = [
+            "content" => "A index page",
+        ];
+
+        $view->add("default2/article", $data);
+
+        $pageRender->renderPage(["title" => $title]);
     }
 }
