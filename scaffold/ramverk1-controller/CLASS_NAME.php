@@ -7,6 +7,7 @@ use \Anax\Configure\ConfigureTrait;
 use \Anax\DI\InjectionAwareInterface;
 use \Anax\Di\InjectionAwareTrait;
 use \Anax\User\HTMLForm\UserLoginForm;
+use \Anax\User\HTMLForm\CreateUserForm;
 
 /**
  * A controller class.
