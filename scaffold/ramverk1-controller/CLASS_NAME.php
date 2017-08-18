@@ -96,7 +96,7 @@ class CLASS_NAME implements
         $form->check();
 
         $data = [
-            "content" => "A page to create a user",
+            "content" => $form->getHTML(),
         ];
 
         $view->add("default2/article", $data);
