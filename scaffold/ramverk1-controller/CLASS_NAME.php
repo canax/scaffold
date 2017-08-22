@@ -31,6 +31,8 @@ class CLASS_NAME implements
     /**
      * Description.
      *
+     * @param datatype $variable Description
+     *
      * @throws Exception
      *
      * @return void
@@ -55,6 +57,8 @@ class CLASS_NAME implements
     /**
      * Description.
      *
+     * @param datatype $variable Description
+     *
      * @throws Exception
      *
      * @return void
@@ -64,7 +68,7 @@ class CLASS_NAME implements
         $title      = "A login page";
         $view       = $this->di->get("view");
         $pageRender = $this->di->get("pageRender");
-        $form       = new UserLoginForm();
+        $form       = new UserLoginForm($this->di);
 
         $form->check();
 
@@ -82,6 +86,8 @@ class CLASS_NAME implements
     /**
      * Description.
      *
+     * @param datatype $variable Description
+     *
      * @throws Exception
      *
      * @return void
@@ -91,7 +97,7 @@ class CLASS_NAME implements
         $title      = "A create user page";
         $view       = $this->di->get("view");
         $pageRender = $this->di->get("pageRender");
-        $form       = new CreateUserForm();
+        $form       = new CreateUserForm($this->di);
 
         $form->check();
 
