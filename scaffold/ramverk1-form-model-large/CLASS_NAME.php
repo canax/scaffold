@@ -10,12 +10,16 @@ use \Anax\HTMLForm\FormModel;
 class CLASS_NAME extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
-        parent::__construct(
+        parent::__construct($di);
+        $this->form->create(
             [
+                "id" => __CLASS__,
                 "legend" => "Legend",
             ],
             [
@@ -203,13 +207,47 @@ class CLASS_NAME extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $this->AddOutput("<p>#callbackSubmit()</p>");
-        $this->AddOutput("<pre>" . print_r($_POST, 1) . "</pre>");
-        $this->saveInSession = true;
+        // These return a single value
+        // Type checkbox returns true if checked
+        $elements = [
+            // HTML401.
+            "text", "password", "hidden", "file", "textarea", "select",
+            "radio", "checkbox",
+            // HTML5
+            "color", "date", "datetime", "datetime-local", "time",
+            "week", "month", "number", "range", "search", "tel",
+            "email", "url", "file-multiple",
+        ];
+        foreach ($elements as $name) {
+            $this->form->addOutput(
+                "$name has value: "
+                . $this->form->value($name)
+                . "</br>"
+            );
+        }
+
+        // Select multiple returns an array
+        $elements = [
+            "selectm",
+        ];
+        foreach ($elements as $name) {
+            $this->form->addOutput(
+                "$name has value: "
+                . implode($this->form->value($name), ", ")
+                . "</br>"
+            );
+        }
+
+        // Remember values during resubmit, useful when failing (retunr false)
+        // and asking the user to resubmit the form.
+        $this->form->rememberValues();
 
         return true;
     }
