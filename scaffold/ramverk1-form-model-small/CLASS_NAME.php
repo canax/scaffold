@@ -3,6 +3,7 @@
 namespace NAMESPACE;
 
 use \Anax\HTMLForm\FormModel;
+use \Anax\DI\DIInterface;
 
 /**
  * Example of FormModel implementation.
