@@ -29,4 +29,5 @@ rsync -av vendor/anax/database/sql/ sql/
 
 # Create the SQLite database with the table User
 sqlite3 data/db.sqlite < sql/ddl/user_sqlite.sql
+chmod 777 data
 chmod 666 data/db.sqlite
