@@ -1,15 +1,15 @@
 <?php
 
-namespace Anax\User\HTMLForm;
+namespace NAMESPACE\HTMLForm;
 
 use \Anax\HTMLForm\FormModel;
 use \Anax\DI\DIInterface;
-use \Anax\User\User;
+use \NAMESPACE\CLASSNAME;
 
 /**
- * Example of FormModel implementation.
+ * Form to create an item.
  */
-class CreateUserForm extends FormModel
+class CreateForm extends FormModel
 {
     /**
      * Constructor injects with DI container.
@@ -22,27 +22,22 @@ class CreateUserForm extends FormModel
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Create user",
+                "legend" => "Details of the item",
             ],
             [
-                "acronym" => [
-                    "type"        => "text",
+                "column1" => [
+                    "type" => "text",
+                    "validation" => ["not_empty"],
                 ],
-
-                "password" => [
-                    "type"        => "password",
-                ],
-
-                "password-again" => [
-                    "type"        => "password",
-                    "validation" => [
-                        "match" => "password"
-                    ],
+                        
+                "column2" => [
+                    "type" => "text",
+                    "validation" => ["not_empty"],
                 ],
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Create user",
+                    "value" => "Create item",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]
@@ -59,25 +54,11 @@ class CreateUserForm extends FormModel
      */
     public function callbackSubmit()
     {
-        // Get values from the submitted form
-        $acronym       = $this->form->value("acronym");
-        $password      = $this->form->value("password");
-        $passwordAgain = $this->form->value("password-again");
-
-        // Check password matches
-        if ($password !== $passwordAgain) {
-            $this->form->rememberValues();
-            $this->form->addOutput("Password did not match.");
-            return false;
-        }
-
-        $user = new User();
-        $user->setDb($this->di->get("db"));
-        $user->acronym = $acronym;
-        $user->setPassword($password);
-        $user->save();
-
-        $this->form->addOutput("User was created.");
-        return true;
+        $cLASSNAME = new CLASSNAME();
+        $cLASSNAME->setDb($this->di->get("db"));
+        $cLASSNAME->column1  = $this->form->value("column1");
+        $cLASSNAME->column2 = $this->form->value("column2");
+        $cLASSNAME->save();
+        $this->di->get("response")->redirect("cLASSNAME");
     }
 }

@@ -47,7 +47,7 @@ class CLASSNAMEController implements
             "items" => $book->findAll(),
         ];
 
-        $view->add("scaffold/crud/view-all", $data);
+        $view->add("cLASSNAME/crud/view-all", $data);
 
         $pageRender->renderPage(["title" => $title]);
     }
@@ -72,7 +72,7 @@ class CLASSNAMEController implements
             "form" => $form->getHTML(),
         ];
 
-        $view->add("scaffold/crud/create", $data);
+        $view->add("cLASSNAME/crud/create", $data);
 
         $pageRender->renderPage(["title" => $title]);
     }
@@ -86,7 +86,7 @@ class CLASSNAMEController implements
      */
     public function getPostDeleteItem()
     {
-        $title      = "Delete a book";
+        $title      = "Delete an item";
         $view       = $this->di->get("view");
         $pageRender = $this->di->get("pageRender");
         $form       = new DeleteForm($this->di);
@@ -97,7 +97,7 @@ class CLASSNAMEController implements
             "form" => $form->getHTML(),
         ];
 
-        $view->add("scaffold/crud/delete", $data);
+        $view->add("cLASSNAME/crud/delete", $data);
 
         $pageRender->renderPage(["title" => $title]);
     }
@@ -122,7 +122,7 @@ class CLASSNAMEController implements
             "form" => $form->getHTML(),
         ];
 
-        $view->add("scaffold/crud/update", $data);
+        $view->add("cLASSNAME/crud/update", $data);
 
         $pageRender->renderPage(["title" => $title]);
     }

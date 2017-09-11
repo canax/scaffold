@@ -12,10 +12,10 @@
  *  "dsn" => "sqlite:memory::",
  */
 return [
-    "dsn"             => "mysql:host=localhost;dbname=anaxdb;",
-    "username"        => "anax",
-    "password"        => "anax",
-    "driver_options"  => [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"],
+    "dsn"             => "sqlite:" . ANAX_INSTALL_PATH . "/data/db.sqlite",
+    "username"        => null,
+    "password"        => null,
+    "driver_options"  => null,
     "fetch_mode"      => \PDO::FETCH_OBJ,
     "table_prefix"    => null,
     "session_key"     => "Anax\Database",

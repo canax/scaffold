@@ -1,13 +1,13 @@
 <?php
 
-namespace Anax\Book\HTMLForm;
+namespace NAMESPACE\HTMLForm;
 
 use \Anax\HTMLForm\FormModel;
 use \Anax\DI\DIInterface;
-use \Anax\Book\Book;
+use \NAMESPACE\CLASSNAME;
 
 /**
- * Form to update a book.
+ * Form to update an item.
  */
 class UpdateForm extends FormModel
 {
@@ -20,30 +20,30 @@ class UpdateForm extends FormModel
     public function __construct(DIInterface $di, $id)
     {
         parent::__construct($di);
-        $book = $this->getBookDetails($id);
+        $cLASSNAME = $this->getItemDetails($id);
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Update details of the book",
+                "legend" => "Update details of the item",
             ],
             [
                 "id" => [
                     "type" => "text",
                     "validation" => ["not_empty"],
                     "readonly" => true,
-                    "value" => $book->id,
+                    "value" => $cLASSNAME->id,
                 ],
 
-                "title" => [
+                "column1" => [
                     "type" => "text",
                     "validation" => ["not_empty"],
-                    "value" => $book->title,
+                    "value" => $cLASSNAME->column1,
                 ],
 
-                "author" => [
+                "column2" => [
                     "type" => "text",
                     "validation" => ["not_empty"],
-                    "value" => $book->author,
+                    "value" => $cLASSNAME->column2,
                 ],
 
                 "submit" => [
@@ -62,18 +62,18 @@ class UpdateForm extends FormModel
 
 
     /**
-     * Get details on book to load form with.
+     * Get details on item to load form with.
      *
-     * @param integer $id get details on book with id.
+     * @param integer $id get details on item with id.
      * 
      * @return boolean true if okey, false if something went wrong.
      */
-    public function getBookDetails($id)
+    public function getItemDetails($id)
     {
-        $book = new Book();
-        $book->setDb($this->di->get("db"));
-        $book->find("id", $id);
-        return $book;
+        $cLASSNAME = new CLASSNAME();
+        $cLASSNAME->setDb($this->di->get("db"));
+        $cLASSNAME->find("id", $id);
+        return $cLASSNAME;
     }
 
 
@@ -86,12 +86,12 @@ class UpdateForm extends FormModel
      */
     public function callbackSubmit()
     {
-        $book = new Book();
-        $book->setDb($this->di->get("db"));
-        $book->find("id", $this->form->value("id"));
-        $book->title  = $this->form->value("title");
-        $book->author = $this->form->value("author");
-        $book->save();
-        $this->di->get("response")->redirect("book/update/{$book->id}");
+        $cLASSNAME = new CLASSNAME();
+        $cLASSNAME->setDb($this->di->get("db"));
+        $cLASSNAME->find("id", $this->form->value("id"));
+        $cLASSNAME->column1 = $this->form->value("column1");
+        $cLASSNAME->column2 = $this->form->value("column2");
+        $cLASSNAME->save();
+        $this->di->get("response")->redirect("book/update/{$cLASSNAME->id}");
     }
 }

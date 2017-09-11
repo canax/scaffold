@@ -1,13 +1,13 @@
 <?php
 
-namespace Anax\Book\HTMLForm;
+namespace NAMESPACE\HTMLForm;
 
 use \Anax\HTMLForm\FormModel;
 use \Anax\DI\DIInterface;
-use \Anax\Book\Book;
+use \NAMESPACE\CLASSNAME;
 
 /**
- * Form to delete a book.
+ * Form to delete an item.
  */
 class DeleteForm extends FormModel
 {
@@ -22,18 +22,18 @@ class DeleteForm extends FormModel
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Delete a book",
+                "legend" => "Delete an item",
             ],
             [
                 "select" => [
                     "type"        => "select",
-                    "label"       => "Select book to delete:",
-                    "options"     => $this->getAllBooks(),
+                    "label"       => "Select item to delete:",
+                    "options"     => $this->getAllItems(),
                 ],
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Delete book",
+                    "value" => "Delete item",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]
@@ -43,21 +43,21 @@ class DeleteForm extends FormModel
 
 
     /**
-     * Get all books as array suitable for display in select option dropdown.
+     * Get all items as array suitable for display in select option dropdown.
      *
-     * @return array with key value of all books.
+     * @return array with key value of all items.
      */
-    protected function getAllBooks()
+    protected function getAllItems()
     {
-        $book = new Book();
-        $book->setDb($this->di->get("db"));
+        $cLASSNAME = new CLASSNAME();
+        $cLASSNAME->setDb($this->di->get("db"));
 
-        $books = ["-1" => "Select a book..."];
-        foreach ($book->findAll() as $obj) {
-            $books[$obj->id] = "{$obj->title} ({$obj->id})";
+        $cLASSNAMEs = ["-1" => "Select an item..."];
+        foreach ($cLASSNAME->findAll() as $obj) {
+            $cLASSNAMEs[$obj->id] = "{$obj->column1} ({$obj->id})";
         }
 
-        return $books;
+        return $cLASSNAMEs;
     }
 
 
@@ -70,10 +70,10 @@ class DeleteForm extends FormModel
      */
     public function callbackSubmit()
     {
-        $book = new Book();
-        $book->setDb($this->di->get("db"));
-        $book->find("id", $this->form->value("select"));
-        $book->delete();
-        $this->di->get("response")->redirect("book");
+        $cLASSNAME = new CLASSNAME();
+        $cLASSNAME->setDb($this->di->get("db"));
+        $cLASSNAME->find("id", $this->form->value("select"));
+        $cLASSNAME->delete();
+        $this->di->get("response")->redirect("cLASSNAME");
     }
 }
