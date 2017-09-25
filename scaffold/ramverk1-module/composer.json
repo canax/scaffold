@@ -1,0 +1,27 @@
+{
+    "name": "anax/MODULE_NAME",
+    "type": "library",
+    "description": "Anax MODULE_NAME module.",
+    "keywords": ["boilerplate", "framework", "mvc", "micro", "education"],
+    "homepage": "https://dbwebb.se/anax",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AUTHOR_NAME",
+            "email": "AUTHOR_EMAIL",
+            "homepage": "https://dbwebb.se",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/canax/MODULE_NAME/issues"
+    },
+    "autoload": {
+        "psr-4": { 
+            "Anax\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6"
+    }
+}
