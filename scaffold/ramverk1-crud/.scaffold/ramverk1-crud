@@ -35,7 +35,8 @@ sedi()
 #
 NAMESPACE=$( input "Namespace" "${ANAX_NAMESPACE:-Anax\\\\XXX}" )
 CLASSNAME=$( input "Class name" "ClassName" )
-cLASSNAME=${CLASSNAME,}
+# cLASSNAME=${CLASSNAME,} # Need bash 4, fails on Mac
+cLASSNAME=$( echo $CLASSNAME | cut -c1 | tr '[:upper:]' '[:lower:]' )$( echo $CLASSNAME | cut -c2- )
 
 # Model
 file="MODEL.php"
