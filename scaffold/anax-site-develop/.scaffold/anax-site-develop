@@ -18,6 +18,7 @@ sedi()
 composer update
 
 # Get and set config for di
+install -d config
 rsync -a vendor/anax/di/config/di_anax-site-develop.php config/di.php
 
 # Get and set config for error reporting
