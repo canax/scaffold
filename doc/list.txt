@@ -1,0 +1,14 @@
+anax-controller                
+anax-module                    
+anax-site-develop              
+ramverk1-controller            
+ramverk1-crud                  
+ramverk1-database-user         
+ramverk1-di                    
+ramverk1-form-model-large      Short description on this template is not here yet.
+ramverk1-form-model-small      
+ramverk1-form                  
+ramverk1-me                    
+ramverk1-module                
+ramverk1-route                 
+ramverk1-site-develop          

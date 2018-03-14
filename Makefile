@@ -232,9 +232,21 @@ behat:
 #
 # Scaffold
 #
+# target: scaffold-list      - Build an info file on available templates.
+.PHONY: scaffold-list
+scaffold-list:
+	@$(call HELPTEXT,$@)
+	[ -d doc ] && rm -f doc/*;                                 \
+	cd scaffold;                                               \
+	for dir in */; do                                          \
+	    printf "%-30s %s\n" "$${dir%/}" "$$([ -f $${dir}.scaffold/info.txt ] && head -1 $${dir}.scaffold/info.txt)" >> ../doc/list.txt; \
+	done;                                                      \
+
+
+
 # target: scaffold           - Build all scaffolds.tar.gz and checksums.
 .PHONY: scaffold
-scaffold:
+scaffold: scaffold-list
 	@$(call HELPTEXT,$@)
 	cd scaffold;                                               \
 	for dir in */; do                                          \
