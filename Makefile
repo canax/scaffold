@@ -236,11 +236,12 @@ behat:
 .PHONY: scaffold-list
 scaffold-list:
 	@$(call HELPTEXT,$@)
-	[ -d doc ] && rm -f doc/*;                                 \
-	cd scaffold;                                               \
-	for dir in */; do                                          \
-	    printf "%-30s %s\n" "$${dir%/}" "$$([ -f $${dir}.scaffold/info.txt ] && head -1 $${dir}.scaffold/info.txt)" >> ../doc/list.txt; \
-	done;                                                      \
+	[ -d doc ] && rm -f doc/*;                                  \
+	cd scaffold;                                                \
+	for dir in */; do                                           \
+		printf "%-30s %s\n" "$${dir%/}" "$$([ -f $${dir}.scaffold/info.txt ] && head -1 $${dir}.scaffold/info.txt)" >> ../doc/list.txt; \
+		[ ! -f $${dir}.scaffold/info.txt ] || cp $${dir}.scaffold/info.txt ../doc/$${dir%/}.txt; \
+	done;
 
 
 
@@ -252,9 +253,7 @@ scaffold: scaffold-list
 	for dir in */; do                                          \
 	    tar cfz "$${dir%/}.tar.gz" -C "$$dir" .;                 \
 	    sha1sum "$${dir%/}.tar.gz" > "$${dir%/}.tar.gz.sha1";    \
-	done;                                                      \
-	ls -l;
-
+	done;
 
 
 # target: scaffold-verify    - Verify checksums.
@@ -264,6 +263,6 @@ scaffold-verify:
 	cd scaffold;                                               \
 	for file in *.sha1; do                                     \
 	    sha1sum -c "$${file}";                                  \
-	done;                                                      \
+	done;
 	
 	
