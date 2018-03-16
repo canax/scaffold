@@ -1,6 +1,7 @@
 anax-controller                
 anax-module                    
 anax-site-develop              
+oophp-me                       Create a me-site for the oophp-course.
 ramverk1-controller            
 ramverk1-crud                  
 ramverk1-database-user         
