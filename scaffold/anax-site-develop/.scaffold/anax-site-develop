@@ -19,7 +19,8 @@ composer update
 
 # Get and set config for di
 install -d config
-rsync -a vendor/anax/di/config/di_anax-site-develop.php config/di.php
+#rsync -a vendor/anax/di/config/di_anax-site-develop.php config/di.php
+rsync -a .scaffold/config/di.php config/di.php
 
 # Get and set config for error reporting
 rsync -a vendor/anax/common/config/error_reporting.php config
@@ -29,8 +30,10 @@ rsync -a vendor/anax/common/{.gitignore,.php*.xml} .
 
 # Copy default config for router
 rsync -a vendor/anax/router/config/route2/ config/route/
-rsync -a vendor/anax/router/config/route2.php config/route.php
-sedi "s/route2/route/g" config/route.php
+#rsync -a vendor/anax/router/config/route2.php config/route.php
+#sedi "s/route2/route/g" config/route.php
+rsync -a .scaffold/config/route.php config
+rsync -a vendor/anax/page/config/route/dev.php config/route/
 
 # Copy sample content/ from page module
 rsync -a vendor/anax/page/content .
