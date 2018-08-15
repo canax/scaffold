@@ -1,11 +1,11 @@
 {
     "name" : "anax/noname",
-    "description": "A me page for the oophp course.",
+    "description": "Anax Lite, a scaffolded website for fun, development and real life.",
     "license": "MIT",
     "minimum-stability": "alpha",
     "prefer-stable": true,
     "require": {
-        "anax/anax-oophp-me": "^1.0.3"
+        "anax/anax-lite": "^1.0.21"
     },
     "autoload": {
         "psr-4": {"Anax\\": "src/"}

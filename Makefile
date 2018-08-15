@@ -236,11 +236,12 @@ behat:
 .PHONY: scaffold-list
 scaffold-list:
 	@$(call HELPTEXT,$@)
-	[ -d doc ] && rm -f doc/*;                                  \
-	cd scaffold;                                                \
-	for dir in */; do                                           \
-		printf "%-30s %s\n" "$${dir%/}" "$$([ -f $${dir}.scaffold/info.txt ] && head -1 $${dir}.scaffold/info.txt)" >> ../doc/list.txt; \
-		[ ! -f $${dir}.scaffold/info.txt ] || cp $${dir}.scaffold/info.txt ../doc/$${dir%/}.txt; \
+	[ -d doc ] && rm -f doc/*;                                   \
+	cd scaffold;                                                 \
+	info="/.anax/scaffold/info.txt";                             \
+	for dir in */; do                                            \
+		printf "%-30s %s\n" "$${dir%/}" "$$([ -f $${dir}$${info} ] && head -1 $${dir}$${info})"; \
+		[ ! -f $${dir}$${info} ] || cp $${dir}$${info} ../doc/$${dir%/}.txt; \
 	done;
 
 
@@ -249,8 +250,8 @@ scaffold-list:
 .PHONY: scaffold
 scaffold: scaffold-list
 	@$(call HELPTEXT,$@)
-	cd scaffold;                                               \
-	for dir in */; do                                          \
+	cd scaffold;                                                 \
+	for dir in */; do                                            \
 	    tar cfz "$${dir%/}.tar.gz" -C "$$dir" .;                 \
 	    sha1sum "$${dir%/}.tar.gz" > "$${dir%/}.tar.gz.sha1";    \
 	done;
@@ -260,8 +261,8 @@ scaffold: scaffold-list
 .PHONY: scaffold-verify
 scaffold-verify:
 	@$(call HELPTEXT,$@)
-	cd scaffold;                                               \
-	for file in *.sha1; do                                     \
+	cd scaffold;                                                \
+	for file in *.sha1; do                                      \
 	    sha1sum -c "$${file}";                                  \
 	done;
 	
