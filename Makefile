@@ -240,7 +240,7 @@ scaffold-list:
 	cd scaffold;                                                 \
 	info="/.anax/scaffold/info.txt";                             \
 	for dir in */; do                                            \
-		printf "%-30s %s\n" "$${dir%/}" "$$([ -f $${dir}$${info} ] && head -1 $${dir}$${info})"; \
+		printf "%-30s %s\n" "$${dir%/}" "$$([ -f $${dir}$${info} ] && head -1 $${dir}$${info})" > ../doc/list.txt; \
 		[ ! -f $${dir}$${info} ] || cp $${dir}$${info} ../doc/$${dir%/}.txt; \
 	done;
 
