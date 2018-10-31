@@ -12,6 +12,7 @@ ramverk1-di
 ramverk1-form-model-large      
 ramverk1-form-model-small      
 ramverk1-form                  
+ramverk1-me-v2                 Create a me-site for the ramverk1 course.
 ramverk1-me                    
 ramverk1-module                
 ramverk1-route                 
