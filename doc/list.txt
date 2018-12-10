@@ -5,11 +5,15 @@ anax-module
 anax-site-develop              
 design-me                      Create a me-site for the design-course.
 oophp-me                       Create a me-site for the oophp-course.
+ramverk1-controller-v2         Create a controller for ramverk1 v2.
 ramverk1-controller            
+ramverk1-crud-v2               Create a CRUD example for Books for ramverk1 v2.
 ramverk1-crud                  
 ramverk1-database-user         
 ramverk1-di                    
+ramverk1-form-model-large-v2   Create a large form model for ramverk1 v2.
 ramverk1-form-model-large      
+ramverk1-form-model-small-v2   Create a small form model for ramverk1 v2.
 ramverk1-form-model-small      
 ramverk1-form                  
 ramverk1-me-v2                 Create a me-site for the ramverk1 course.
