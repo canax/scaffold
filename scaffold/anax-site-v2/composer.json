@@ -1,0 +1,14 @@
+{
+    "name" : "anax/noname",
+    "description": "An Anax scaffolded website for fun, development and real life",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {"Anax\\": "src/"}
+    },
+    "require": {
+        "anax/anax": "^2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    }
+}

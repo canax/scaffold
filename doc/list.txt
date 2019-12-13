@@ -3,6 +3,7 @@ anax-flat-site                 Create a site using Anax Flat.
 anax-lite-site                 Create a site using Anax Lite.
 anax-module                    
 anax-site-develop              
+anax-site-v2                   Create a site using Anax.
 design-me                      Create a me-site for the design-course.
 oophp-me                       Create a me-site for the oophp-course.
 ramverk1-controller-v2         Create a controller for ramverk1 v2.
