@@ -29,7 +29,7 @@ class CLASS_NAME extends FormModel
                     "description" => "Here you can place a description.",
                     "placeholder" => "Here is a placeholder",
                 ],
-                        
+
                 "password" => [
                     "type"        => "password",
                     "description" => "Here you can place a description.",
@@ -241,7 +241,7 @@ class CLASS_NAME extends FormModel
         foreach ($elements as $name) {
             $this->form->addOutput(
                 "$name has value: "
-                . implode($this->form->value($name), ", ")
+                . implode(", ", $this->form->value($name))
                 . "</br>"
             );
         }
